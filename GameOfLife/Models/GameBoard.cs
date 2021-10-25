@@ -17,7 +17,15 @@ namespace GameOfLife.Models
 
         public void Parse(string[] coordinates)
         {
-
+            foreach (string coordinate in coordinates)
+            {
+                int[] splitCoordinates = Array.ConvertAll(coordinate.Split(','), int.Parse);
+                Nodes.Add(new Node
+                {
+                    Coordinates = new Position(splitCoordinates[0], splitCoordinates[1]),
+                    IsAlive = true
+                });
+            }
         }
     }
 }
