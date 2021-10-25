@@ -10,9 +10,13 @@ namespace GameOfLife.Tests
         }
 
         [Test]
-        public void Test1()
+        public void GetStateByCoordinatesShouldReturnFalseForDeadNode()
         {
-            Assert.Pass();
+            var node = new Node
+            {
+                Coordinates = new Position(4, 2),
+                IsAlive = false;
+            }
         }
     }
 }
