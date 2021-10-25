@@ -8,6 +8,7 @@ namespace GameOfLife.Models
 {
     public class Node
     {
-        
+        public Position Coordinates { get; set; }
+        public bool IsAlive { get; set; }
     }
 }

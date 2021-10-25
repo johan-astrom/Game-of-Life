@@ -8,6 +8,10 @@ namespace GameOfLife.Models
 {
     public class GameBoard
     {
-        
+        public List<Node> Nodes { get; set; }
+        public bool GetStateByCoordinates(Position Coordinates)
+        {
+            return false;
+        }
     }
 }
