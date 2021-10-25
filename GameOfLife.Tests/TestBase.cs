@@ -1,4 +1,5 @@
 ﻿using GameOfLife.Models;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace GameOfLife.Tests
 {
     public class TestBase
     {
+        public TestContext context;
+        
         public static readonly Node DeadNode = new() 
         { 
             Coordinates = new Position(6, 4), IsAlive = false
@@ -28,5 +31,6 @@ namespace GameOfLife.Tests
                 LivingNode
             }
         };
+
     }
 }

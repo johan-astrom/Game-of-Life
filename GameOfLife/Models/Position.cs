@@ -16,5 +16,12 @@ namespace GameOfLife.Models
             XCoordinate = x;
             YCoordinate = y;
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Position position &&
+                   XCoordinate == position.XCoordinate &&
+                   YCoordinate == position.YCoordinate;
+        }
     }
 }

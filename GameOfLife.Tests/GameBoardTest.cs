@@ -21,7 +21,8 @@ namespace GameOfLife.Tests
         [Test]
         public void GetStateByCoordinatesShouldReturnFalseForDeadNode()
         {
-            
+            TestContext.Write("Asserting that GetStateByCoordinates returns false for a dead node.");
+
             var nodeState = testBase.GameBoard.GetStateByCoordinates(new Position(6, 4));
 
             Assert.IsFalse(nodeState);
@@ -30,7 +31,11 @@ namespace GameOfLife.Tests
         [Test]
         public void GetStateByCoordinatesShouldReturnTrueForLivingNode()
         {
+            TestContext.Write("Asserting that GetStateByCoordinates returns true for a living node.");
 
+            var nodeState = testBase.GameBoard.GetStateByCoordinates(new Position(5, 4));
+
+            Assert.IsTrue(nodeState);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace GameOfLife.Models
 
         public bool GetStateByCoordinates(Position coordinates)
         {
-            return Nodes.SingleOrDefault(n => n.Coordinates.Equals(coordinates))
+            return Nodes.SingleOrDefault(n => n.Coordinates.Equals(coordinates)).IsAlive;
         }
     }
 }
