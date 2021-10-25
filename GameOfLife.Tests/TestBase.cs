@@ -9,15 +9,24 @@ namespace GameOfLife.Tests
 {
     public class TestBase
     {
-        public Node DeadNode = new Node 
+        public static readonly Node DeadNode = new() 
         { 
             Coordinates = new Position(6, 4), IsAlive = false
         };
         
-        public Node LivingNode = new Node
+        public static readonly Node LivingNode = new()
         {
             Coordinates = new Position(5, 4),
             IsAlive = true
+        };
+
+        public readonly GameBoard GameBoard = new()
+        {
+            Nodes = new List<Node>
+            {
+                DeadNode,
+                LivingNode
+            }
         };
     }
 }

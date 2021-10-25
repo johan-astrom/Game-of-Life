@@ -10,17 +10,27 @@ namespace GameOfLife.Tests
 {
     public class GameBoardTest
     {
+        private TestBase testBase;
+
         [SetUp]
         public void Instantiate()
         {
-            var testBase = new TestBase();
+            testBase = new TestBase();
         }
 
         [Test]
         public void GetStateByCoordinatesShouldReturnFalseForDeadNode()
         {
-            var gameBoard = new GameBoard();
-            var nodeState = gameBoard.GetStateByCoordinates(new Position(6, 4));
+            
+            var nodeState = testBase.GameBoard.GetStateByCoordinates(new Position(6, 4));
+
+            Assert.IsFalse(nodeState);
+        }
+
+        [Test]
+        public void GetStateByCoordinatesShouldReturnTrueForLivingNode()
+        {
+
         }
     }
 }
