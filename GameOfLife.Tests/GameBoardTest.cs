@@ -19,6 +19,24 @@ namespace GameOfLife.Tests
         }
 
         [Test]
+        public void ParseShouldFillListOfNodes()
+        {
+            TestContext.Write("Asserting that Parse method populates the Nodes property when passing in array of coordinate strings.");
+
+            var emptyBoard = new GameBoard();
+
+            if(emptyBoard.Nodes is not null)
+            {
+                Assert.Fail();
+            }
+
+            testBase.GameBoard.Parse(testBase.Coordinates);
+
+            CollectionAssert.IsNotEmpty(emptyBoard.Nodes);
+
+        }
+
+        [Test]
         public void GetStateByCoordinatesShouldReturnFalseForDeadNode()
         {
             TestContext.Write("Asserting that GetStateByCoordinates returns false for a dead node.");
@@ -37,5 +55,7 @@ namespace GameOfLife.Tests
 
             Assert.IsTrue(nodeState);
         }
+
+
     }
 }

@@ -14,5 +14,10 @@ namespace GameOfLife.Models
         {
             return Nodes.SingleOrDefault(n => n.Coordinates.Equals(coordinates)).IsAlive;
         }
+
+        public void Parse(string[] coordinates)
+        {
+
+        }
     }
 }

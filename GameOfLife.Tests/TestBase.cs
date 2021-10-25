@@ -32,5 +32,12 @@ namespace GameOfLife.Tests
             }
         };
 
+        public readonly string[] Coordinates =
+        {
+            "1, 1",
+            "1, 2",
+            "3, 4",
+        };
+
     }
 }
