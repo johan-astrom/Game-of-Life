@@ -16,7 +16,9 @@ namespace GameOfLife.Models
 
         public bool GetStateByCoordinates(Position coordinates)
         {
-            return Nodes.SingleOrDefault(n => n.Coordinates.Equals(coordinates)).IsAlive;
+            var node = Nodes.SingleOrDefault(n => n.Coordinates.Equals(coordinates));
+            if (node is null) return false;
+            return node.IsAlive;
         }
 
         public void Parse(string[] coordinates)

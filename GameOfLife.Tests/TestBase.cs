@@ -11,35 +11,53 @@ namespace GameOfLife.Tests
     public class TestBase
     {
         public TestContext context;
-        
-        public static readonly Node DeadNode = new() 
-        { 
-            Coordinates = new Position(6, 4), IsAlive = false
-        };
-        
-        public static readonly Node LivingNode = new()
-        {
-            Coordinates = new Position(5, 4),
-            IsAlive = true
-        };
 
-        public readonly GameBoard GameBoard = new()
+        public Position DeadNodePosition;
+
+        public Position LivingNodePosition;
+
+        public Position NonExistentNodePosition;
+
+        public Node DeadNode;
+
+        public Node LivingNode;
+
+        public GameBoard GameBoard;
+
+        public string[] Coordinates;
+
+        public TestBase()
         {
-            Nodes = new List<Node>
+            DeadNodePosition = new Position(6, 4);
+            LivingNodePosition = new Position(5, 4);
+            NonExistentNodePosition = new Position(0, 0);
+            DeadNode = new()
+            {
+                Coordinates = DeadNodePosition,
+                IsAlive = false
+            };
+            LivingNode = new()
+            {
+                Coordinates = LivingNodePosition,
+                IsAlive = true
+            };
+            GameBoard = new()
+            {
+                Nodes = new List<Node>
             {
                 DeadNode,
                 LivingNode
             }
-        };
-
-        public readonly string[] Coordinates =
-        {
-            "1, 1",
-            "2, 1",
-            "1, 2",
-            "1, 3",
-            "3, 4",
-        };
+            };
+            Coordinates = new[]
+            {
+                "1, 1",
+                "2, 1",
+                "1, 2",
+                "1, 3",
+                "3, 4",
+            };
+        }
 
     }
 }

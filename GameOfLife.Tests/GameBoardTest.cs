@@ -41,7 +41,7 @@ namespace GameOfLife.Tests
         {
             TestContext.Write("Asserting that GetStateByCoordinates returns false for a dead node.");
 
-            var nodeState = testBase.GameBoard.GetStateByCoordinates(new Position(6, 4));
+            var nodeState = testBase.GameBoard.GetStateByCoordinates(testBase.DeadNodePosition);
 
             Assert.IsFalse(nodeState);
         }
@@ -51,28 +51,36 @@ namespace GameOfLife.Tests
         {
             TestContext.Write("Asserting that GetStateByCoordinates returns true for a living node.");
 
-            var nodeState = testBase.GameBoard.GetStateByCoordinates(new Position(5, 4));
+            var nodeState = testBase.GameBoard.GetStateByCoordinates(testBase.LivingNodePosition);
 
             Assert.IsTrue(nodeState);
         }
 
+        [Test]
+        public void GetStateByCoordinatesShouldReturnFalseForNonexistingNode()
+        {
+            TestContext.Write("Asserting that GetStateByCoordinates returns false if no value is specified for a node at the given position.");
+
+            var nodeState = testBase.GameBoard.GetStateByCoordinates(testBase.NonExistentNodePosition);
+
+            Assert.IsFalse(nodeState);
+        }
         [Test]
         public void ComputeSurvivalShouldSetIsAliveToFalseForNodeWithOneLivingNeighbour()
         {
             var populatedBoard = new GameBoard();
             populatedBoard.Parse(testBase.Coordinates);
 
-            populatedBoard.ComputeSurvival();
-
             if(!populatedBoard.GetStateByCoordinates(new Position(1, 3)))
             {
                 Assert.Fail();
             }
 
+            populatedBoard.ComputeSurvival();
+
             var nodeState = populatedBoard.GetStateByCoordinates(new Position(1,3));
 
             Assert.IsFalse(nodeState);
         }
-
     }
 }
