@@ -56,6 +56,23 @@ namespace GameOfLife.Tests
             Assert.IsTrue(nodeState);
         }
 
+        [Test]
+        public void ComputeSurvivalShouldSetIsAliveToFalseForNodeWithOneLivingNeighbour()
+        {
+            var populatedBoard = new GameBoard();
+            populatedBoard.Parse(testBase.Coordinates);
+
+            populatedBoard.ComputeSurvival();
+
+            if(!populatedBoard.GetStateByCoordinates(new Position(1, 3)))
+            {
+                Assert.Fail();
+            }
+
+            var nodeState = populatedBoard.GetStateByCoordinates(new Position(1,3));
+
+            Assert.IsFalse(nodeState);
+        }
 
     }
 }

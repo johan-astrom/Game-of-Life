@@ -31,5 +31,10 @@ namespace GameOfLife.Models
                 });
             }
         }
+
+        public void ComputeSurvival()
+        {
+
+        }
     }
 }
