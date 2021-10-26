@@ -48,12 +48,17 @@ namespace GameOfLife.Models
 
         public void ComputeGeneration()
         {
-            Nodes.ForEach(ComputeSurvival);
+            for (int x = 1; x <= MaxXCoordinate; x++)
+            {
+                for (int y = 1; y < MaxYCoordinate; y++)
+                {
+                    ComputeSurvival(new Position(x, y));
+                }
+            } 
         }
 
-        private void ComputeSurvival(Node node)
+        private void ComputeSurvival(Position pos)
         {
-            var pos = node.Coordinates;
             List<Position> neighbours = new()
             {
                 new Position(pos.XCoordinate-1, pos.YCoordinate+1),
