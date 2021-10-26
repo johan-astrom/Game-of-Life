@@ -9,6 +9,10 @@ namespace GameOfLife.Models
     public class GameBoard
     {
         public List<Node> Nodes { get; set; }
+        public GameBoard()
+        {
+            Nodes = new List<Node>();
+        }
 
         public bool GetStateByCoordinates(Position coordinates)
         {

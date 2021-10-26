@@ -25,12 +25,12 @@ namespace GameOfLife.Tests
 
             var emptyBoard = new GameBoard();
 
-            if(emptyBoard.Nodes is not null)
+            if(emptyBoard.Nodes.Count > 0)
             {
                 Assert.Fail();
             }
 
-            testBase.GameBoard.Parse(testBase.Coordinates);
+            emptyBoard.Parse(testBase.Coordinates);
 
             CollectionAssert.IsNotEmpty(emptyBoard.Nodes);
 
