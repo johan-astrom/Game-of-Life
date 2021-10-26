@@ -23,5 +23,6 @@ namespace GameOfLife.Models
                    XCoordinate == position.XCoordinate &&
                    YCoordinate == position.YCoordinate;
         }
+
     }
 }

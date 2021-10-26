@@ -25,14 +25,14 @@ namespace GameOfLife.Tests
 
             var emptyBoard = new GameBoard();
 
-            if(emptyBoard.Nodes.Count > 0)
+            if(emptyBoard.LivingNodes.Count > 0)
             {
                 Assert.Fail();
             }
 
             emptyBoard.Parse(testBase.Coordinates);
 
-            CollectionAssert.IsNotEmpty(emptyBoard.Nodes);
+            CollectionAssert.IsNotEmpty(emptyBoard.LivingNodes);
 
         }
 
@@ -53,16 +53,6 @@ namespace GameOfLife.Tests
         }
 
         [Test]
-        public void GetStateByCoordinatesShouldReturnFalseForDeadNode()
-        {
-            TestContext.Write("Asserting that GetStateByCoordinates returns false for a dead node.");
-
-            var nodeState = testBase.GameBoard.GetStateByCoordinates(testBase.DeadNodePosition);
-
-            Assert.IsFalse(nodeState);
-        }
-
-        [Test]
         public void GetStateByCoordinatesShouldReturnTrueForLivingNode()
         {
             TestContext.Write("Asserting that GetStateByCoordinates returns true for a living node.");
@@ -77,7 +67,22 @@ namespace GameOfLife.Tests
         {
             TestContext.Write("Asserting that GetStateByCoordinates returns false if no value is specified for a node at the given position.");
 
-            var nodeState = testBase.GameBoard.GetStateByCoordinates(testBase.NonExistentNodePosition);
+            var nodeState = testBase.GameBoard.GetStateByCoordinates(testBase.DeadNodePosition);
+
+            Assert.IsFalse(nodeState);
+        }
+
+        [Test]
+        public void Calling_RemoveAtCoordinates_ShouldMake_GetStateByCoordinates_ReturnFalse()
+        {
+            if (!testBase.GameBoard.GetStateByCoordinates(testBase.LivingNodePosition))
+            {
+                Assert.Fail();
+            }
+
+            testBase.GameBoard.RemoveAtCoordinates(testBase.LivingNodePosition);
+
+            var nodeState = testBase.GameBoard.GetStateByCoordinates(testBase.LivingNodePosition);
 
             Assert.IsFalse(nodeState);
         }
@@ -85,7 +90,7 @@ namespace GameOfLife.Tests
         [TestCase(1,4)]
         [TestCase(3,4)]
         [TestCase(2,2)]
-        public void ComputeSurvivalShouldSetIsAliveToFalseForNodeWith_Zero_One_Or_Four_LivingNeighbours(int x, int y)
+        public void ComputeSurvivalShouldRemoveNodesWith_Zero_One_Or_Four_LivingNeighbours(int x, int y)
         {
             TestContext.WriteLine($"Testing with coordinates ({x}, {y})");
             var pos = new Position(x, y);

@@ -12,13 +12,9 @@ namespace GameOfLife.Tests
     {
         public TestContext context;
 
-        public Position DeadNodePosition;
-
         public Position LivingNodePosition;
 
-        public Position NonExistentNodePosition;
-
-        public Node DeadNode;
+        public Position DeadNodePosition;
 
         public Node LivingNode;
 
@@ -28,18 +24,16 @@ namespace GameOfLife.Tests
 
         public TestBase()
         {
-            DeadNodePosition = new Position(6, 4);
             LivingNodePosition = new Position(5, 4);
-            NonExistentNodePosition = new Position(0, 0);
+            DeadNodePosition = new Position(1, 1);
             LivingNode = new()
             {
                 Coordinates = LivingNodePosition,
             };
             GameBoard = new()
             {
-                Nodes = new List<Node>
+                LivingNodes = new List<Node>
             {
-                DeadNode,
                 LivingNode
             }
             };
