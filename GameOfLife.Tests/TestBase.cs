@@ -31,15 +31,9 @@ namespace GameOfLife.Tests
             DeadNodePosition = new Position(6, 4);
             LivingNodePosition = new Position(5, 4);
             NonExistentNodePosition = new Position(0, 0);
-            DeadNode = new()
-            {
-                Coordinates = DeadNodePosition,
-                IsAlive = false
-            };
             LivingNode = new()
             {
                 Coordinates = LivingNodePosition,
-                IsAlive = true
             };
             GameBoard = new()
             {

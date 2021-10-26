@@ -32,6 +32,18 @@ namespace GameOfLife.Models
                     Coordinates = new Position(splitCoordinates[0], splitCoordinates[1]),
                 });
             }
+            FindMaxYCoordinate();
+            FindMaxXCoordinate();
+        }
+
+        private void FindMaxXCoordinate()
+        {
+            MaxXCoordinate = Nodes.Select(n => n.Coordinates.XCoordinate).Max();
+        }
+
+        private void FindMaxYCoordinate()
+        {
+            MaxYCoordinate = Nodes.Select(n => n.Coordinates.YCoordinate).Max();
         }
 
         public void ComputeGeneration()
@@ -65,10 +77,7 @@ namespace GameOfLife.Models
             {
                 Nodes.Remove(node);
             }
-            else if (!node.IsAlive && livingNeighbours == 3)
-            {
-                node.IsAlive = true;
-            }
+           
         }
     }
 }

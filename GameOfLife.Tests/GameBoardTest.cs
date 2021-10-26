@@ -39,8 +39,17 @@ namespace GameOfLife.Tests
         [Test]
         public void ParseShouldSetMaxXCoordinate()
         {
-            testBase.GameBoard.Parse(testBase.Coordinates);
-            Assert.Equals(3, testBase.GameBoard.MaxXCoordinate);
+            var gameBoard = new GameBoard();
+            gameBoard.Parse(testBase.Coordinates);
+            Assert.AreEqual(3, gameBoard.MaxXCoordinate);
+        }
+        
+        [Test]
+        public void ParseShouldSetMaxYCoordinate()
+        {
+            var gameBoard = new GameBoard();
+            gameBoard.Parse(testBase.Coordinates);
+            Assert.AreEqual(4, gameBoard.MaxYCoordinate);
         }
 
         [Test]
