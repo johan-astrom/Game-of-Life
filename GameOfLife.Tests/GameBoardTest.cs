@@ -37,6 +37,13 @@ namespace GameOfLife.Tests
         }
 
         [Test]
+        public void ParseShouldSetMaxXCoordinate()
+        {
+            testBase.GameBoard.Parse(testBase.Coordinates);
+            Assert.Equals(3, testBase.GameBoard.MaxXCoordinate);
+        }
+
+        [Test]
         public void GetStateByCoordinatesShouldReturnFalseForDeadNode()
         {
             TestContext.Write("Asserting that GetStateByCoordinates returns false for a dead node.");
@@ -65,6 +72,7 @@ namespace GameOfLife.Tests
 
             Assert.IsFalse(nodeState);
         }
+
         [TestCase(1,4)]
         [TestCase(3,4)]
         [TestCase(2,2)]
@@ -87,41 +95,5 @@ namespace GameOfLife.Tests
             Assert.IsFalse(nodeState);
         }
         
-        [Test]
-        public void ComputeSurvivalShouldSetIsAliveToFalseForNodeWithZeroLivingNeighbours()
-        {
-            var positionWithZeroNeighbours = new Position(3, 4);
-            var populatedBoard = new GameBoard();
-            populatedBoard.Parse(testBase.Coordinates);
-
-            if (!populatedBoard.GetStateByCoordinates(positionWithZeroNeighbours))
-            {
-                Assert.Fail();
-            }
-
-            populatedBoard.ComputeGeneration();
-
-            var nodeState = populatedBoard.GetStateByCoordinates(positionWithZeroNeighbours);
-
-            Assert.IsFalse(nodeState);
-        }
-        [Test]
-        public void ComputeSurvivalShouldSetIsAliveToFalseForNodeWithFourLivingNeighbours()
-        {
-            var positionWithFourNeighbours = new Position(2, 2);
-            var populatedBoard = new GameBoard();
-            populatedBoard.Parse(testBase.Coordinates);
-
-            if (!populatedBoard.GetStateByCoordinates(positionWithFourNeighbours))
-            {
-                Assert.Fail();
-            }
-
-            populatedBoard.ComputeGeneration();
-
-            var nodeState = populatedBoard.GetStateByCoordinates(positionWithFourNeighbours);
-
-            Assert.IsFalse(nodeState);
-        }
     }
 }

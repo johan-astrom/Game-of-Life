@@ -10,6 +10,8 @@ namespace GameOfLife.Models
     {
         public List<Node> Nodes { get; set; }
         public int Size { get; set; }
+        public int MaxXCoordinate { get; set; }
+        public int MaxYCoordinate { get; set; }
         public GameBoard()
         {
             Nodes = new List<Node>();
@@ -17,9 +19,7 @@ namespace GameOfLife.Models
 
         public bool GetStateByCoordinates(Position coordinates)
         {
-            var node = Nodes.SingleOrDefault(n => n.Coordinates.Equals(coordinates));
-            if (node is null) return false;
-            return node.IsAlive;
+            return Nodes.SingleOrDefault(n => n.Coordinates.Equals(coordinates)) is null;
         }
 
         public void Parse(string[] coordinates)
@@ -30,7 +30,6 @@ namespace GameOfLife.Models
                 Nodes.Add(new Node
                 {
                     Coordinates = new Position(splitCoordinates[0], splitCoordinates[1]),
-                    IsAlive = true
                 });
             }
         }
@@ -64,7 +63,7 @@ namespace GameOfLife.Models
 
             if (livingNeighbours > 3 || livingNeighbours < 2)
             {
-                node.IsAlive = false;
+                Nodes.Remove(node);
             }
             else if (!node.IsAlive && livingNeighbours == 3)
             {
