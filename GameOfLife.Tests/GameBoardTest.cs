@@ -68,17 +68,18 @@ namespace GameOfLife.Tests
         [Test]
         public void ComputeSurvivalShouldSetIsAliveToFalseForNodeWithOneLivingNeighbour()
         {
+            var positionWithOneNeighbor = new Position(1, 3);
             var populatedBoard = new GameBoard();
             populatedBoard.Parse(testBase.Coordinates);
 
-            if(!populatedBoard.GetStateByCoordinates(new Position(1, 3)))
+            if (!populatedBoard.GetStateByCoordinates(positionWithOneNeighbor))
             {
                 Assert.Fail();
             }
 
-            populatedBoard.ComputeSurvival();
+            populatedBoard.ComputeGeneration();
 
-            var nodeState = populatedBoard.GetStateByCoordinates(new Position(1,3));
+            var nodeState = populatedBoard.GetStateByCoordinates(positionWithOneNeighbor);
 
             Assert.IsFalse(nodeState);
         }
