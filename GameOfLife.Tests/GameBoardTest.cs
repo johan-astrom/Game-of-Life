@@ -57,7 +57,7 @@ namespace GameOfLife.Tests
         {
             TestContext.Write("Asserting that GetStateByCoordinates returns true for a living node.");
 
-            var nodeState = testBase.GameBoard.GetStateByCoordinates(testBase.LivingNodePosition);
+            var nodeState = testBase.GameBoard.GetStateByCoordinates(testBase.LivingNodePosition, testBase.GameBoard.LivingNodes);
 
             Assert.IsTrue(nodeState);
         }
@@ -67,7 +67,7 @@ namespace GameOfLife.Tests
         {
             TestContext.Write("Asserting that GetStateByCoordinates returns false if no value is specified for a node at the given position.");
 
-            var nodeState = testBase.GameBoard.GetStateByCoordinates(testBase.DeadNodePosition);
+            var nodeState = testBase.GameBoard.GetStateByCoordinates(testBase.DeadNodePosition, testBase.GameBoard.LivingNodes);
 
             Assert.IsFalse(nodeState);
         }
@@ -75,14 +75,14 @@ namespace GameOfLife.Tests
         [Test]
         public void Calling_RemoveAtCoordinates_ShouldMake_GetStateByCoordinates_ReturnFalse()
         {
-            if (!testBase.GameBoard.GetStateByCoordinates(testBase.LivingNodePosition))
+            if (!testBase.GameBoard.GetStateByCoordinates(testBase.LivingNodePosition, testBase.GameBoard.LivingNodes))
             {
                 Assert.Fail();
             }
 
             testBase.GameBoard.RemoveAtCoordinates(testBase.LivingNodePosition);
 
-            var nodeState = testBase.GameBoard.GetStateByCoordinates(testBase.LivingNodePosition);
+            var nodeState = testBase.GameBoard.GetStateByCoordinates(testBase.LivingNodePosition, testBase.GameBoard.LivingNodes);
 
             Assert.IsFalse(nodeState);
         }
@@ -97,14 +97,14 @@ namespace GameOfLife.Tests
             var populatedBoard = new GameBoard();
             populatedBoard.Parse(testBase.Coordinates);
 
-            if (!populatedBoard.GetStateByCoordinates(pos))
+            if (!populatedBoard.GetStateByCoordinates(pos, populatedBoard.LivingNodes))
             {
                 Assert.Fail();
             }
 
             populatedBoard.ComputeGeneration();
 
-            var nodeState = populatedBoard.GetStateByCoordinates(pos);
+            var nodeState = populatedBoard.GetStateByCoordinates(pos, populatedBoard.LivingNodes);
 
             Assert.IsFalse(nodeState);
         }

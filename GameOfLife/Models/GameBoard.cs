@@ -9,7 +9,6 @@ namespace GameOfLife.Models
     public class GameBoard
     {
         public List<Node> LivingNodes { get; set; }
-        public int Size { get; set; }
         public int MaxXCoordinate { get; set; }
         public int MaxYCoordinate { get; set; }
         public GameBoard()
@@ -17,9 +16,9 @@ namespace GameOfLife.Models
             LivingNodes = new List<Node>();
         }
 
-        public bool GetStateByCoordinates(Position coordinates)
+        public bool GetStateByCoordinates(Position coordinates, List<Node> nodes)
         {
-            return LivingNodes.SingleOrDefault(n => n.Coordinates.Equals(coordinates)) is not null;
+            return nodes.SingleOrDefault(n => n.Coordinates.Equals(coordinates)) is not null;
         }
 
         public void Parse(string[] coordinates)
@@ -48,16 +47,17 @@ namespace GameOfLife.Models
 
         public void ComputeGeneration()
         {
+            var tempNodes = new List<Node>(LivingNodes);
             for (int x = 1; x <= MaxXCoordinate; x++)
             {
-                for (int y = 1; y < MaxYCoordinate; y++)
+                for (int y = 1; y <= MaxYCoordinate; y++)
                 {
-                    ComputeSurvival(new Position(x, y));
+                    ComputeSurvival(new Position(x, y), tempNodes);
                 }
             } 
         }
 
-        private void ComputeSurvival(Position pos)
+        private void ComputeSurvival(Position pos, List<Node> livingNodes)
         {
             List<Position> neighbours = new()
             {
@@ -73,16 +73,16 @@ namespace GameOfLife.Models
             int livingNeighbours = 0;
             foreach (Position neighbour in neighbours)
             {
-                if (GetStateByCoordinates(neighbour)) { 
+                if (GetStateByCoordinates(neighbour, livingNodes)) { 
                     livingNeighbours++;
                 }
             }
 
-            if (GetStateByCoordinates(pos) && (livingNeighbours > 3 || livingNeighbours < 2))
+            if (GetStateByCoordinates(pos, livingNodes) && (livingNeighbours > 3 || livingNeighbours < 2))
             {
                 RemoveAtCoordinates(pos);
             }
-            else if (!GetStateByCoordinates(pos) && livingNeighbours == 3)
+            else if (!GetStateByCoordinates(pos, livingNodes) && livingNeighbours == 3)
             {
                 LivingNodes.Add(new Node { Coordinates = pos });
             }
