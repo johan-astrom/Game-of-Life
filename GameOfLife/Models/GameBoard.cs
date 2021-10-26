@@ -62,7 +62,7 @@ namespace GameOfLife.Models
                 }
             }
 
-            if (livingNeighbours > 4 || livingNeighbours < 2)
+            if (livingNeighbours > 3 || livingNeighbours < 2)
             {
                 node.IsAlive = false;
             }
