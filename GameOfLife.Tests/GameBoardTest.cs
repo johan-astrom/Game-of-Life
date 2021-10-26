@@ -108,6 +108,12 @@ namespace GameOfLife.Tests
 
             Assert.IsFalse(nodeState);
         }
+
+        [Test]
+        public void ComputeSurvivalShouldAddNodesWithThreeNeighbours()
+        {
+            asd
+        }
         
     }
 }
