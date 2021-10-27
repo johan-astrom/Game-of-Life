@@ -90,17 +90,16 @@ namespace GameOfLife.Tests
         public void ComputeSurvivalShouldAddNodesWithThreeNeighbours(int x, int y)
         {
             var pos = new Position(x, y);
-            var populatedBoard = new GameRules();
-            var nodes = populatedBoard.Parse(testBase.Coordinates);
+            var nodes = testBase.GameBoard.Parse(testBase.Coordinates);
 
-            if (populatedBoard.GetStateByCoordinates(pos, nodes))
+            if (testBase.GameBoard.GetStateByCoordinates(pos, nodes))
             {
                 Assert.Fail();
             }
 
-            var nextGeneration = populatedBoard.ComputeGeneration(nodes);
+            var nextGeneration = testBase.GameBoard.ComputeGeneration(nodes);
 
-            var nodeState = populatedBoard.GetStateByCoordinates(pos, nextGeneration);
+            var nodeState = testBase.GameBoard.GetStateByCoordinates(pos, nextGeneration);
 
             Assert.IsTrue(nodeState);
         }
