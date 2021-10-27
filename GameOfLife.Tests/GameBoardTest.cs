@@ -109,10 +109,24 @@ namespace GameOfLife.Tests
             Assert.IsFalse(nodeState);
         }
 
-        [Test]
-        public void ComputeSurvivalShouldAddNodesWithThreeNeighbours()
+        [TestCase(3,1)]
+        [TestCase(3,3)]
+        public void ComputeSurvivalShouldAddNodesWithThreeNeighbours(int x, int y)
         {
-            asd
+           var pos = new Position(x, y);
+            var populatedBoard = new GameBoard();
+            populatedBoard.Parse(testBase.Coordinates);
+
+            if (populatedBoard.GetStateByCoordinates(pos, populatedBoard.LivingNodes))
+            {
+                Assert.Fail();
+            }
+
+            populatedBoard.ComputeGeneration();
+
+            var nodeState = populatedBoard.GetStateByCoordinates(pos, populatedBoard.LivingNodes);
+
+            Assert.IsTrue(nodeState);
         }
         
     }
