@@ -30,7 +30,7 @@ namespace GameOfLife.Tests
                 Assert.Fail();
             }
 
-            emptyBoard.Parse(testBase.Coordinates);
+            emptyBoard.Parse(testBase.Coordinates, emptyBoard.LivingNodes);
 
             CollectionAssert.IsNotEmpty(emptyBoard.LivingNodes);
 
@@ -40,7 +40,7 @@ namespace GameOfLife.Tests
         public void ParseShouldSetMaxXCoordinate()
         {
             var gameBoard = new GameBoard();
-            gameBoard.Parse(testBase.Coordinates);
+            gameBoard.Parse(testBase.Coordinates, gameBoard.LivingNodes);
             Assert.AreEqual(3, gameBoard.MaxXCoordinate);
         }
         
@@ -48,7 +48,7 @@ namespace GameOfLife.Tests
         public void ParseShouldSetMaxYCoordinate()
         {
             var gameBoard = new GameBoard();
-            gameBoard.Parse(testBase.Coordinates);
+            gameBoard.Parse(testBase.Coordinates, gameBoard.LivingNodes);
             Assert.AreEqual(4, gameBoard.MaxYCoordinate);
         }
 
@@ -95,7 +95,7 @@ namespace GameOfLife.Tests
             TestContext.WriteLine($"Testing with coordinates ({x}, {y})");
             var pos = new Position(x, y);
             var populatedBoard = new GameBoard();
-            populatedBoard.Parse(testBase.Coordinates);
+            populatedBoard.Parse(testBase.Coordinates, populatedBoard.LivingNodes);
 
             if (!populatedBoard.GetStateByCoordinates(pos, populatedBoard.LivingNodes))
             {
@@ -115,7 +115,7 @@ namespace GameOfLife.Tests
         {
            var pos = new Position(x, y);
             var populatedBoard = new GameBoard();
-            populatedBoard.Parse(testBase.Coordinates);
+            populatedBoard.Parse(testBase.Coordinates, populatedBoard.LivingNodes);
 
             if (populatedBoard.GetStateByCoordinates(pos, populatedBoard.LivingNodes))
             {

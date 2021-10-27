@@ -21,28 +21,28 @@ namespace GameOfLife.Models
             return nodes.SingleOrDefault(n => n.Coordinates.Equals(coordinates)) is not null;
         }
 
-        public void Parse(string[] coordinates)
+        public void Parse(string[] coordinates, List<Node> nodes)
         {
             foreach (string coordinate in coordinates)
             {
                 int[] splitCoordinates = Array.ConvertAll(coordinate.Split(','), int.Parse);
-                LivingNodes.Add(new Node
+                nodes.Add(new Node
                 {
                     Coordinates = new Position(splitCoordinates[0], splitCoordinates[1]),
                 });
             }
-            FindMaxYCoordinate();
-            FindMaxXCoordinate();
+            FindMaxYCoordinate(nodes);
+            FindMaxXCoordinate(nodes);
         }
 
-        private void FindMaxXCoordinate()
+        private void FindMaxXCoordinate(List<Node> nodes)
         {
-            MaxXCoordinate = LivingNodes.Select(n => n.Coordinates.XCoordinate).Max();
+            MaxXCoordinate = nodes.Select(n => n.Coordinates.XCoordinate).Max();
         }
 
-        private void FindMaxYCoordinate()
+        private void FindMaxYCoordinate(List<Node> nodes)
         {
-            MaxYCoordinate = LivingNodes.Select(n => n.Coordinates.YCoordinate).Max();
+            MaxYCoordinate = nodes.Select(n => n.Coordinates.YCoordinate).Max();
         }
 
         public void ComputeGeneration()
