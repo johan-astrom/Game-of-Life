@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,22 +9,18 @@ namespace GameOfLife.Models
 {
     public class GameBoard
     {
-        public List<Node> LivingNodes { get; set; }
-        public GameBoard()
-        {
-            LivingNodes = new List<Node>();
-        }
-
-        public bool GetStateByCoordinates(Position coordinates, List<Node> nodes)
+        public bool GetStateByCoordinates(Position coordinates, ImmutableList<Node> nodes)
         {
             return nodes.SingleOrDefault(n => n.Coordinates.Equals(coordinates)) is not null;
         }
 
-        public void Parse(string[] coordinates, List<Node> nodes)
+        public ImmutableList<Node> Parse(string[] coordinates)
         {
+            var nodes = new List<Node>();
             Array.ForEach(coordinates, 
                 c => AddNode(nodes, 
                 Array.ConvertAll(c.Split(','), int.Parse)));
+            return nodes.ToImmutableList();
         }
 
         private static void AddNode(List<Node> nodes, int[] splitCoordinates)
@@ -34,63 +31,58 @@ namespace GameOfLife.Models
             });
         }
 
-        public int FindMaxXCoordinate(List<Node> nodes)
+        public int FindMaxXCoordinate(ImmutableList<Node> nodes)
         {
             return nodes.Select(n => n.Coordinates.XCoordinate).Max();
         }
 
-        public int FindMaxYCoordinate(List<Node> nodes)
+        public int FindMaxYCoordinate(ImmutableList<Node> nodes)
         {
             return nodes.Select(n => n.Coordinates.YCoordinate).Max();
         }
 
-        public void ComputeGeneration()
+        public ImmutableList<Node> ComputeGeneration(ImmutableList<Node> nodes)
         {
-            var tempNodes = new List<Node>(LivingNodes);
-            for (int x = 1; x <= FindMaxXCoordinate(LivingNodes); x++)
+            var nextGeneration = new List<Node>(nodes);
+            for (int x = 1; x <= FindMaxXCoordinate(nodes); x++)
             {
-                for (int y = 1; y <= FindMaxYCoordinate(LivingNodes); y++)
+                for (int y = 1; y <= FindMaxYCoordinate(nodes); y++)
                 {
-                    ComputeSurvival(new Position(x, y), tempNodes);
+                    ComputeSurvival(new SurvivalItem
+                    {
+                        Coordinates = new Position(x, y),
+                        LivingNodes = nodes,
+                        NextGeneration = nextGeneration
+                    });
                 }
-            } 
+            }
+            return nextGeneration.ToImmutableList<Node>();
         }
 
-        private void ComputeSurvival(Position pos, List<Node> livingNodes)
+        private void ComputeSurvival(SurvivalItem survivalItem)
         {
-            List<Position> neighbours = new()
-            {
-                new Position(pos.XCoordinate-1, pos.YCoordinate+1),
-                new Position(pos.XCoordinate, pos.YCoordinate+1),
-                new Position(pos.XCoordinate+1, pos.YCoordinate+1),
-                new Position(pos.XCoordinate-1, pos.YCoordinate),
-                new Position(pos.XCoordinate+1, pos.YCoordinate),
-                new Position(pos.XCoordinate-1, pos.YCoordinate-1),
-                new Position(pos.XCoordinate, pos.YCoordinate-1),
-                new Position(pos.XCoordinate+1, pos.YCoordinate-1),
-            };
             int livingNeighbours = 0;
-            foreach (Position neighbour in neighbours)
+            foreach (Position neighbour in survivalItem.Neighbours)
             {
-                if (GetStateByCoordinates(neighbour, livingNodes)) { 
+                if (GetStateByCoordinates(neighbour, survivalItem.LivingNodes)) { 
                     livingNeighbours++;
                 }
             }
 
-            if (GetStateByCoordinates(pos, livingNodes) && (livingNeighbours > 3 || livingNeighbours < 2))
+            if (GetStateByCoordinates(survivalItem.Coordinates, survivalItem.LivingNodes) && (livingNeighbours > 3 || livingNeighbours < 2))
             {
-                RemoveAtCoordinates(pos);
+                RemoveAtCoordinates(survivalItem);
             }
-            else if (!GetStateByCoordinates(pos, livingNodes) && livingNeighbours == 3)
+            else if (!GetStateByCoordinates(survivalItem.Coordinates, survivalItem.LivingNodes) && livingNeighbours == 3)
             {
-                LivingNodes.Add(new Node { Coordinates = pos });
+                survivalItem.NextGeneration.Add(new Node { Coordinates = survivalItem.Coordinates });
             }
         }
 
-        public bool RemoveAtCoordinates(Position pos)
+        public bool RemoveAtCoordinates(SurvivalItem survivalItem)
         {
-            var node = LivingNodes.SingleOrDefault(n => n.Coordinates.Equals(pos));
-            return LivingNodes.Remove(node);
+            var node = survivalItem.LivingNodes.SingleOrDefault(n => n.Coordinates.Equals(survivalItem.Coordinates));
+            return survivalItem.NextGeneration.Remove(node);
         }
     }
 }
