@@ -23,9 +23,7 @@ namespace GameOfLife.Tests
         {
             TestContext.Write("Asserting that Parse method returns an immutable Node list when passing in array of coordinate strings.");
 
-            var emptyBoard = new GameRules();
-
-            var nodes = emptyBoard.Parse(testBase.Coordinates);
+            var nodes = testBase.GameBoard.Parse(testBase.Coordinates);
 
             CollectionAssert.IsNotEmpty(nodes);
         }
@@ -33,17 +31,15 @@ namespace GameOfLife.Tests
         [Test]
         public void MaxXCoordinate_ShouldReturnBiggestValueOfXAxis_AfterParseIsCalled()
         {
-            var gameBoard = new GameRules();
-            var nodes = gameBoard.Parse(testBase.Coordinates);
-            Assert.AreEqual(3, gameBoard.FindMaxXCoordinate(nodes));
+            var nodes = testBase.GameBoard.Parse(testBase.Coordinates); 
+            Assert.AreEqual(3, testBase.GameBoard.FindMaxXCoordinate(nodes));
         }
 
         [Test]
         public void MaxYCoordinate_ShouldReturnBiggestValueOfYAxis_AfterParseIsCalled()
         {
-            var gameBoard = new GameRules();
-            var nodes = gameBoard.Parse(testBase.Coordinates);
-            Assert.AreEqual(4, gameBoard.FindMaxYCoordinate(nodes));
+            var nodes = testBase.GameBoard.Parse(testBase.Coordinates);
+            Assert.AreEqual(4, testBase.GameBoard.FindMaxYCoordinate(nodes));
         }
 
         [Test]
@@ -75,17 +71,16 @@ namespace GameOfLife.Tests
         {
             TestContext.WriteLine($"Testing with coordinates ({x}, {y})");
             var pos = new Position(x, y);
-            var populatedBoard = new GameRules();
-            var nodes = populatedBoard.Parse(testBase.Coordinates);
+            var nodes = testBase.GameBoard.Parse(testBase.Coordinates);
 
-            if (!populatedBoard.GetStateByCoordinates(pos, nodes))
+            if (!testBase.GameBoard.GetStateByCoordinates(pos, nodes))
             {
                 Assert.Fail();
             }
 
-            var nextGeneration = populatedBoard.ComputeGeneration(nodes);
+            var nextGeneration = testBase.GameBoard.ComputeGeneration(nodes);
 
-            var nodeState = populatedBoard.GetStateByCoordinates(pos, nextGeneration);
+            var nodeState = testBase.GameBoard.GetStateByCoordinates(pos, nextGeneration);
 
             Assert.IsFalse(nodeState);
         }
