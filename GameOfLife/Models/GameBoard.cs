@@ -9,8 +9,6 @@ namespace GameOfLife.Models
     public class GameBoard
     {
         public List<Node> LivingNodes { get; set; }
-        public int MaxXCoordinate { get; set; }
-        public int MaxYCoordinate { get; set; }
         public GameBoard()
         {
             LivingNodes = new List<Node>();
@@ -23,16 +21,17 @@ namespace GameOfLife.Models
 
         public void Parse(string[] coordinates, List<Node> nodes)
         {
-            foreach (string coordinate in coordinates)
+            Array.ForEach(coordinates, 
+                c => AddNode(nodes, 
+                Array.ConvertAll(c.Split(','), int.Parse)));
+        }
+
+        private static void AddNode(List<Node> nodes, int[] splitCoordinates)
+        {
+            nodes.Add(new Node
             {
-                int[] splitCoordinates = Array.ConvertAll(coordinate.Split(','), int.Parse);
-                nodes.Add(new Node
-                {
-                    Coordinates = new Position(splitCoordinates[0], splitCoordinates[1]),
-                });
-            }
-            FindMaxYCoordinate(nodes);
-            FindMaxXCoordinate(nodes);
+                Coordinates = new Position(splitCoordinates[0], splitCoordinates[1]),
+            });
         }
 
         public int FindMaxXCoordinate(List<Node> nodes)
