@@ -35,22 +35,22 @@ namespace GameOfLife.Models
             FindMaxXCoordinate(nodes);
         }
 
-        private void FindMaxXCoordinate(List<Node> nodes)
+        public int FindMaxXCoordinate(List<Node> nodes)
         {
-            MaxXCoordinate = nodes.Select(n => n.Coordinates.XCoordinate).Max();
+            return nodes.Select(n => n.Coordinates.XCoordinate).Max();
         }
 
-        private void FindMaxYCoordinate(List<Node> nodes)
+        public int FindMaxYCoordinate(List<Node> nodes)
         {
-            MaxYCoordinate = nodes.Select(n => n.Coordinates.YCoordinate).Max();
+            return nodes.Select(n => n.Coordinates.YCoordinate).Max();
         }
 
         public void ComputeGeneration()
         {
             var tempNodes = new List<Node>(LivingNodes);
-            for (int x = 1; x <= MaxXCoordinate; x++)
+            for (int x = 1; x <= FindMaxXCoordinate(LivingNodes); x++)
             {
-                for (int y = 1; y <= MaxYCoordinate; y++)
+                for (int y = 1; y <= FindMaxYCoordinate(LivingNodes); y++)
                 {
                     ComputeSurvival(new Position(x, y), tempNodes);
                 }

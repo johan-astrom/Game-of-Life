@@ -37,19 +37,19 @@ namespace GameOfLife.Tests
         }
 
         [Test]
-        public void ParseShouldSetMaxXCoordinate()
+        public void MaxXCoordinate_ShouldReturnBiggestValueOfXAxis_AfterParseIsCalled()
         {
             var gameBoard = new GameBoard();
             gameBoard.Parse(testBase.Coordinates, gameBoard.LivingNodes);
-            Assert.AreEqual(3, gameBoard.MaxXCoordinate);
+            Assert.AreEqual(3, gameBoard.FindMaxXCoordinate(gameBoard.LivingNodes));
         }
         
         [Test]
-        public void ParseShouldSetMaxYCoordinate()
+        public void MaxYCoordinate_ShouldReturnBiggestValueOfYAxis_AfterParseIsCalled()
         {
             var gameBoard = new GameBoard();
             gameBoard.Parse(testBase.Coordinates, gameBoard.LivingNodes);
-            Assert.AreEqual(4, gameBoard.MaxYCoordinate);
+            Assert.AreEqual(4, gameBoard.FindMaxYCoordinate(gameBoard.LivingNodes));
         }
 
         [Test]
