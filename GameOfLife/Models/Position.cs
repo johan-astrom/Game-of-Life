@@ -17,6 +17,11 @@ namespace GameOfLife.Models
             YCoordinate = y;
         }
 
+        public static Position GetPosition(int x, int y)
+        {
+            return new Position(x, y);
+        }
+
         public override bool Equals(object obj)
         {
             return obj is Position position &&

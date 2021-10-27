@@ -23,18 +23,17 @@ namespace GameOfLife.Tests
         {
             TestContext.Write("Asserting that Parse method returns an immutable Node list when passing in array of coordinate strings.");
 
-            var emptyBoard = new GameBoard();
+            var emptyBoard = new GameRules();
 
             var nodes = emptyBoard.Parse(testBase.Coordinates);
 
             CollectionAssert.IsNotEmpty(nodes);
-
         }
 
         [Test]
         public void MaxXCoordinate_ShouldReturnBiggestValueOfXAxis_AfterParseIsCalled()
         {
-            var gameBoard = new GameBoard();
+            var gameBoard = new GameRules();
             var nodes = gameBoard.Parse(testBase.Coordinates);
             Assert.AreEqual(3, gameBoard.FindMaxXCoordinate(nodes));
         }
@@ -42,7 +41,7 @@ namespace GameOfLife.Tests
         [Test]
         public void MaxYCoordinate_ShouldReturnBiggestValueOfYAxis_AfterParseIsCalled()
         {
-            var gameBoard = new GameBoard();
+            var gameBoard = new GameRules();
             var nodes = gameBoard.Parse(testBase.Coordinates);
             Assert.AreEqual(4, gameBoard.FindMaxYCoordinate(nodes));
         }
@@ -54,7 +53,7 @@ namespace GameOfLife.Tests
 
             var nodes = testBase.GameBoard.Parse(testBase.Coordinates);
             var nodeState = testBase.GameBoard.GetStateByCoordinates(testBase.LivingNodePosition, nodes);
-
+            
             Assert.IsTrue(nodeState);
         }
 
@@ -76,7 +75,7 @@ namespace GameOfLife.Tests
         {
             TestContext.WriteLine($"Testing with coordinates ({x}, {y})");
             var pos = new Position(x, y);
-            var populatedBoard = new GameBoard();
+            var populatedBoard = new GameRules();
             var nodes = populatedBoard.Parse(testBase.Coordinates);
 
             if (!populatedBoard.GetStateByCoordinates(pos, nodes))
@@ -96,7 +95,7 @@ namespace GameOfLife.Tests
         public void ComputeSurvivalShouldAddNodesWithThreeNeighbours(int x, int y)
         {
             var pos = new Position(x, y);
-            var populatedBoard = new GameBoard();
+            var populatedBoard = new GameRules();
             var nodes = populatedBoard.Parse(testBase.Coordinates);
 
             if (populatedBoard.GetStateByCoordinates(pos, nodes))
