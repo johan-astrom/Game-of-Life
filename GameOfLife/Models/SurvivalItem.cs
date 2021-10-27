@@ -13,8 +13,11 @@ namespace GameOfLife.Models
         public List<Node> NextGeneration { get; set; }
         public Position Coordinates { get; set; }
         public List<Position> Neighbours { get; set; }
-        public SurvivalItem()
+        public SurvivalItem(ImmutableList<Node> livingNodes, List<Node> nextGeneration, Position coordinates)
         {
+            LivingNodes = livingNodes;
+            NextGeneration = nextGeneration;
+            Coordinates = coordinates;
             Neighbours = new()
             {
                 new Position(Coordinates.XCoordinate - 1, Coordinates.YCoordinate + 1),

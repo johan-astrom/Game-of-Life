@@ -16,27 +16,16 @@ namespace GameOfLife.Tests
 
         public Position DeadNodePosition;
 
-        public Node LivingNode;
-
         public GameBoard GameBoard;
 
         public string[] Coordinates;
 
         public TestBase()
         {
-            LivingNodePosition = new Position(5, 4);
-            DeadNodePosition = new Position(1, 1);
-            LivingNode = new()
-            {
-                Coordinates = LivingNodePosition,
-            };
-            GameBoard = new()
-            {
-                LivingNodes = new List<Node>
-            {
-                LivingNode
-            }
-            };
+            GameBoard = new GameBoard();
+            LivingNodePosition = new Position(1, 1);
+            DeadNodePosition = new Position(3, 1);
+            
             Coordinates = new[]
             {
                 "1, 1",

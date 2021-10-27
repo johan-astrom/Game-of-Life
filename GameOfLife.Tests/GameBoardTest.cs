@@ -19,20 +19,15 @@ namespace GameOfLife.Tests
         }
 
         [Test]
-        public void ParseShouldFillListOfNodes()
+        public void ParseShouldReturnListOfNodes()
         {
-            TestContext.Write("Asserting that Parse method populates the Nodes property when passing in array of coordinate strings.");
+            TestContext.Write("Asserting that Parse method returns an immutable Node list when passing in array of coordinate strings.");
 
             var emptyBoard = new GameBoard();
 
-            if(emptyBoard.LivingNodes.Count > 0)
-            {
-                Assert.Fail();
-            }
+            var nodes = emptyBoard.Parse(testBase.Coordinates);
 
-            emptyBoard.Parse(testBase.Coordinates, emptyBoard.LivingNodes);
-
-            CollectionAssert.IsNotEmpty(emptyBoard.LivingNodes);
+            CollectionAssert.IsNotEmpty(nodes);
 
         }
 
@@ -40,16 +35,16 @@ namespace GameOfLife.Tests
         public void MaxXCoordinate_ShouldReturnBiggestValueOfXAxis_AfterParseIsCalled()
         {
             var gameBoard = new GameBoard();
-            gameBoard.Parse(testBase.Coordinates, gameBoard.LivingNodes);
-            Assert.AreEqual(3, gameBoard.FindMaxXCoordinate(gameBoard.LivingNodes));
+            var nodes = gameBoard.Parse(testBase.Coordinates);
+            Assert.AreEqual(3, gameBoard.FindMaxXCoordinate(nodes));
         }
-        
+
         [Test]
         public void MaxYCoordinate_ShouldReturnBiggestValueOfYAxis_AfterParseIsCalled()
         {
             var gameBoard = new GameBoard();
-            gameBoard.Parse(testBase.Coordinates, gameBoard.LivingNodes);
-            Assert.AreEqual(4, gameBoard.FindMaxYCoordinate(gameBoard.LivingNodes));
+            var nodes = gameBoard.Parse(testBase.Coordinates);
+            Assert.AreEqual(4, gameBoard.FindMaxYCoordinate(nodes));
         }
 
         [Test]
@@ -57,7 +52,8 @@ namespace GameOfLife.Tests
         {
             TestContext.Write("Asserting that GetStateByCoordinates returns true for a living node.");
 
-            var nodeState = testBase.GameBoard.GetStateByCoordinates(testBase.LivingNodePosition, testBase.GameBoard.LivingNodes);
+            var nodes = testBase.GameBoard.Parse(testBase.Coordinates);
+            var nodeState = testBase.GameBoard.GetStateByCoordinates(testBase.LivingNodePosition, nodes);
 
             Assert.IsTrue(nodeState);
         }
@@ -67,67 +63,53 @@ namespace GameOfLife.Tests
         {
             TestContext.Write("Asserting that GetStateByCoordinates returns false if no value is specified for a node at the given position.");
 
-            var nodeState = testBase.GameBoard.GetStateByCoordinates(testBase.DeadNodePosition, testBase.GameBoard.LivingNodes);
+            var nodes = testBase.GameBoard.Parse(testBase.Coordinates);
+            var nodeState = testBase.GameBoard.GetStateByCoordinates(testBase.DeadNodePosition, nodes);
 
             Assert.IsFalse(nodeState);
         }
 
-        [Test]
-        public void Calling_RemoveAtCoordinates_ShouldMake_GetStateByCoordinates_ReturnFalse()
-        {
-            if (!testBase.GameBoard.GetStateByCoordinates(testBase.LivingNodePosition, testBase.GameBoard.LivingNodes))
-            {
-                Assert.Fail();
-            }
-
-            testBase.GameBoard.RemoveAtCoordinates(testBase.LivingNodePosition);
-
-            var nodeState = testBase.GameBoard.GetStateByCoordinates(testBase.LivingNodePosition, testBase.GameBoard.LivingNodes);
-
-            Assert.IsFalse(nodeState);
-        }
-
-        [TestCase(1,4)]
-        [TestCase(3,4)]
-        [TestCase(2,2)]
+        [TestCase(1, 4)]
+        [TestCase(3, 4)]
+        [TestCase(2, 2)]
         public void ComputeSurvivalShouldRemoveNodesWith_Zero_One_Or_Four_LivingNeighbours(int x, int y)
         {
             TestContext.WriteLine($"Testing with coordinates ({x}, {y})");
             var pos = new Position(x, y);
             var populatedBoard = new GameBoard();
-            populatedBoard.Parse(testBase.Coordinates, populatedBoard.LivingNodes);
+            var nodes = populatedBoard.Parse(testBase.Coordinates);
 
-            if (!populatedBoard.GetStateByCoordinates(pos, populatedBoard.LivingNodes))
+            if (!populatedBoard.GetStateByCoordinates(pos, nodes))
             {
                 Assert.Fail();
             }
 
-            populatedBoard.ComputeGeneration();
+            var nextGeneration = populatedBoard.ComputeGeneration(nodes);
 
-            var nodeState = populatedBoard.GetStateByCoordinates(pos, populatedBoard.LivingNodes);
+            var nodeState = populatedBoard.GetStateByCoordinates(pos, nextGeneration);
 
             Assert.IsFalse(nodeState);
         }
 
-        [TestCase(3,1)]
-        [TestCase(3,3)]
+        [TestCase(3, 1)]
+        [TestCase(3, 3)]
         public void ComputeSurvivalShouldAddNodesWithThreeNeighbours(int x, int y)
         {
-           var pos = new Position(x, y);
+            var pos = new Position(x, y);
             var populatedBoard = new GameBoard();
-            populatedBoard.Parse(testBase.Coordinates, populatedBoard.LivingNodes);
+            var nodes = populatedBoard.Parse(testBase.Coordinates);
 
-            if (populatedBoard.GetStateByCoordinates(pos, populatedBoard.LivingNodes))
+            if (populatedBoard.GetStateByCoordinates(pos, nodes))
             {
                 Assert.Fail();
             }
 
-            populatedBoard.ComputeGeneration();
+            var nextGeneration = populatedBoard.ComputeGeneration(nodes);
 
-            var nodeState = populatedBoard.GetStateByCoordinates(pos, populatedBoard.LivingNodes);
+            var nodeState = populatedBoard.GetStateByCoordinates(pos, nextGeneration);
 
             Assert.IsTrue(nodeState);
         }
-        
+
     }
 }

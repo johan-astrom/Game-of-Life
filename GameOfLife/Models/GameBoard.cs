@@ -48,12 +48,7 @@ namespace GameOfLife.Models
             {
                 for (int y = 1; y <= FindMaxYCoordinate(nodes); y++)
                 {
-                    ComputeSurvival(new SurvivalItem
-                    {
-                        Coordinates = new Position(x, y),
-                        LivingNodes = nodes,
-                        NextGeneration = nextGeneration
-                    });
+                    ComputeSurvival(new SurvivalItem(nodes, nextGeneration, new Position(x, y)));
                 }
             }
             return nextGeneration.ToImmutableList<Node>();
@@ -79,7 +74,7 @@ namespace GameOfLife.Models
             }
         }
 
-        public bool RemoveAtCoordinates(SurvivalItem survivalItem)
+        private bool RemoveAtCoordinates(SurvivalItem survivalItem)
         {
             var node = survivalItem.LivingNodes.SingleOrDefault(n => n.Coordinates.Equals(survivalItem.Coordinates));
             return survivalItem.NextGeneration.Remove(node);
