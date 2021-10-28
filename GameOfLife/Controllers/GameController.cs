@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GameOfLife.Controllers
 {
-    public class GameController
+    public class GameController : Controller
     {
         private readonly ILogger<GameController> _logger;
 
@@ -19,7 +19,7 @@ namespace GameOfLife.Controllers
 
         public IActionResult Index()
         {
-            throw new NotImplementedException();
+            return View();
         }
     }
 }

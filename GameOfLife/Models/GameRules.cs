@@ -44,9 +44,9 @@ namespace GameOfLife.Models
         public IImmutableList<Node> ComputeGeneration(IImmutableList<Node> nodes)
         {
             var nextGeneration = new List<Node>(nodes);
-            for (int x = 1; x <= FindMaxXCoordinate(nodes); x++)
+            for (int x = 0; x <= FindMaxXCoordinate(nodes)+1; x++)
             {
-                for (int y = 1; y <= FindMaxYCoordinate(nodes); y++)
+                for (int y = 0; y <= FindMaxYCoordinate(nodes)+1; y++)
                 {
                     ComputeSurvival(new GenerationData(nodes, nextGeneration, new Position(x, y)));
                 }
