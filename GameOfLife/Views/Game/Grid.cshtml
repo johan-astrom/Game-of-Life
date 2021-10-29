@@ -1,0 +1,25 @@
+﻿@model GameOfLife.Controllers.GameViewController
+
+<h1>Game grid</h1>
+<h2>Check the cells that should be alive.</h2>
+<form action="/Game/NextGeneration" method="post">
+    <div name="coordinates">
+        @{ for (int i = 1; i <= Model.GridAxisSize; i++)
+            {
+                for (int j = 1; j <= Model.GridAxisSize; j++)
+                {
+                    <input type="checkbox" value="@i, @j" name="coordinates" checked="@(Array.Find(Model.Coordinates, c => c.Equals(i + ", " + j)) == null ? false : true)">
+                }
+                <br />
+            }
+        }
+    </div>
+    <div display="@(Model.HideGrid ? "none" : "visible")">
+        <input type="submit" value="Calculate next generation" />
+        @{ foreach (string location in Model.Coordinates)
+            {
+                <div>@location</div>
+            }
+        }
+    </div>
+</form>
