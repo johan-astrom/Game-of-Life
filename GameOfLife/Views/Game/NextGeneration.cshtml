@@ -1,9 +1,13 @@
 ﻿@model GameOfLife.Controllers.GameViewController
 
-<h1>Game grid</h1>
-<h2>Check the cells that should be alive.</h2>
-<form action="/Game/NextGeneration" method="post">
-    <div name="coordinates">
+<h1>Result</h1>
+@{if(Model.Coordinates.Length == 0)
+    {
+<h2>Game over!</h2>
+    }
+else{
+<form action="NextGeneration" method="post">
+    <div>
         @{ for (int i = 1; i <= Model.GridAxisSize; i++)
             {
                 for (int j = 1; j <= Model.GridAxisSize; j++)
@@ -17,3 +21,6 @@
     <input type="number" value="@Model.GridAxisSize" name="number" style="display: none;" />
     <input type="submit" value="Calculate next generation" />
 </form>
+}}
+<a href="Game/Index">New Game</a>
+
