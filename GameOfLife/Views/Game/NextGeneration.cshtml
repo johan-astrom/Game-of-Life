@@ -11,7 +11,7 @@ else{
         @{ for (int i = 1; i <= Model.GridAxisSize; i++)
             {
                 for (int j = 1; j <= Model.GridAxisSize; j++)
-                {
+                { 
                     <input type="checkbox" value="@i, @j" name="coordinates" checked="@(Array.Find(Model.Coordinates, c => c.Equals(i + ", " + j)) == null ? false : true)">
                 }
                 <br />
