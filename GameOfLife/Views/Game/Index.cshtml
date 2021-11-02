@@ -5,7 +5,7 @@
     <p>Number: @Model.GridAxisSize</p>
     <p>Select a number of cells.</p>
     <form action="/Game/Grid" method="post">
-        <input type="number" name="number" id="gridSize" />
+        <input type="number" name="number" id="gridSize" min="2"/>
         <button type="submit">Generate gameboard</button>
     </form>
 </div>
